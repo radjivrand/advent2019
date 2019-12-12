@@ -70,6 +70,8 @@ $asi = array(
   array(3,4)
 );
 
+// test
+
 foreach ($map as $row) {
   foreach ($row as $col) {
     if ($col==1) {
