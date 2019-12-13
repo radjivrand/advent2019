@@ -36,8 +36,12 @@ for ($i=0; $i < 160; $i += 4) {
 }
 
 
-
-
+if (function_exists(sqlsrv_connect)){
+  echo("jeo");
+}
+else {
+  echo("ei");
+}
 
 
 
