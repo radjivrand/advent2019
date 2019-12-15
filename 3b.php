@@ -48,22 +48,29 @@ function cursor ($startsquare, $loc_string){
 
 echo("<br>");
 $lines = array();
-$count = 0;
 
 function sticks($input_array){
   $sticks = array();
   $location['x'] = 0;
   $location['y'] = 0;
+  $travel = 0;
   // echo gettype($input_array);
   foreach ($input_array as $key => $value) {
     $prev_location = $location;
     $location = cursor($location, $value);
-    // echo ($location);
-    array_push($sticks, array('x1' => $prev_location['x'], 'x2' => $location['x'], 'y1' => $prev_location['y'], 'y2' => $location['y']));
-    $count++;
+    if ($prev_location['x'] == $location['x']) {
+      $travel += abs($prev_location['y']-$location['y']);
+    }
+    else {
+      $travel += abs($prev_location['x']-$location['x']);
+    }
+
+
+    array_push($sticks, array('x1' => $prev_location['x'], 'x2' => $location['x'], 'y1' => $prev_location['y'], 'y2' => $location['y'], 'travel' => $travel));
   }
   return $sticks;
 }
+
 
 $lines_0 = sticks($arr_0);
 $lines_1 = sticks($arr_1);
@@ -88,12 +95,23 @@ function arrangeValues ($input_array){
 $lines_0 = arrangeValues($lines_0);
 $lines_1 = arrangeValues($lines_1);
 
+
+
 foreach ($lines_0 as $key_0 => $value_0) {
   if ($value_0['x1'] == $value_0['x2']) {
     foreach ($lines_1 as $key_1 => $value_1) {
       if ( ($value_1['x1'] <= $value_0['x1'] && $value_0['x1'] <= $value_1['x2']) && ($value_0['y1'] <= $value_1['y1'] && $value_1['y1'] <= $value_0['y2']) ) {
         $first = abs($value_0['x1']) + abs($value_1['y2']);
-        echo ("jep: ".$value_0['x1']." ja ".$value_1['y2']." => ".$first);
+
+        print_r ($value_0);
+        echo ("</br>");
+        print_r ($value_1);
+
+//arvutab kokku kogu teekonna. koguteekonnast on vaja maha lahutada need jupid, mis ulatuvad üle ristumiskoha.
+
+
+        $journey = abs($value_1['travel']) + abs($value_0['travel']) - $shift_x - $shift_y;
+        echo ("jep: ".$value_0['x1']." ja ".$value_1['y2']." => ".$first." ja travel = ".$journey);
         echo("<br>");
       }
     }
@@ -103,7 +121,8 @@ foreach ($lines_0 as $key_0 => $value_0) {
     foreach ($lines_1 as $key_1 => $value_1) {
       if ( ($value_0['x1'] <= $value_1['x1'] && $value_1['x1'] <= $value_0['x2']) && ($value_1['y1'] <= $value_0['y1'] && $value_0['y1'] <= $value_1['y2']) ) {
         $second = abs($value_1['x1']) + abs($value_0['y2']);
-        echo ("jap: ".$value_1['x1']." ja ".$value_0['y2']." => ".$second);
+        $journey = abs($value_1['travel']) + abs($value_0['travel']);
+        echo ("jap: ".$value_1['x1']." ja ".$value_0['y2']." => ".$second." ja travel = ".$journey);
         echo("<br>");
       }
     }
