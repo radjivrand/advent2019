@@ -8,8 +8,8 @@ $test_input = file_get_contents('./3.txt', FILE_USE_INCLUDE_PATH);
 // $example_a = "R8,U5,L5,D3";
 // $example_b = "U7,R6,D4,L4";
 //
-$example_a = "R75,D30,R83,U83,L12,D49,R71,U7,L72";
-$example_b = "U62,R66,U55,R34,D71,R55,D58,R83";
+// $example_a = "R75,D30,R83,U83,L12,D49,R71,U7,L72";
+// $example_b = "U62,R66,U55,R34,D71,R55,D58,R83";
 //
 // $example_a = "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51";
 // $example_b = "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7";
@@ -21,11 +21,11 @@ $example_a  = explode("\n", $example_a);
 $example_b  = explode("\n", $example_b);
 
 
-// $arr_0 = preg_split("/,/", $test_input[0]);
-// $arr_1 = preg_split("/,/", $test_input[1]);
+$arr_0 = preg_split("/,/", $test_input[0]);
+$arr_1 = preg_split("/,/", $test_input[1]);
 
-$arr_0 = preg_split("/,/", $example_a[0]);
-$arr_1 = preg_split("/,/", $example_b[0]);
+// $arr_0 = preg_split("/,/", $example_a[0]);
+// $arr_1 = preg_split("/,/", $example_b[0]);
 
 
 function splitter($input){
@@ -93,12 +93,12 @@ function arrangeValues ($input_array){
   return $input_array;
 }
 
-$lines_0 = arrangeValues($lines_0);
-$lines_1 = arrangeValues($lines_1);
+// $lines_0 = arrangeValues($lines_0);
+// $lines_1 = arrangeValues($lines_1);
 
 
-function nihe($arr, $steps){
-$journey = 0;
+function journey($arr, $steps){
+  $journey = 0;
   for ($i=0; $i < $steps; $i++) {
     if ($arr[$i]['x1'] == $arr[$i]['x2']) {
       $journey += (abs($arr[$i]['y2'] - $arr[$i]['y1']));
@@ -111,63 +111,135 @@ $journey = 0;
   return $journey;
 }
 
-echo nihe($lines_0, 4);
+// echo nihe($lines_0, 4);
 
 
 // echo $lines_0[1]
 
 
-echo "string";
+// echo "string";
 
 echo "</br>";
 echo "</br>";
 echo "</br>";
 
-
-
-$x_counter = 0;
-$y_counter = 0;
-$z_counter = 0;
-$mitmes_joon = 0;
-
-foreach ($lines_0 as $key_0 => $value_0) {
-  // kohtumine y-teljel, x-d on samad
-  if ($value_0['x1'] == $value_0['x2']) {
-    foreach ($lines_1 as $key_1 => $value_1) {
-      if ( ($value_1['x1'] <= $value_0['x1'] && $value_0['x1'] <= $value_1['x2']) && ($value_0['y1'] <= $value_1['y1'] && $value_1['y1'] <= $value_0['y2']) ) {
-        $first = abs($value_0['x1']) + abs($value_1['y2']);
-        echo ("jep: ".$value_0['x1']." ja ".$value_1['y2']." => ".$first);
-        echo ("; pulgad ".($z_counter+1)." ja ".($y_counter+1));
-        echo ", teekond x: ".nihe($lines_0, $z_counter)." teekond y:".nihe($lines_1, $y_counter)." kokku: ".(nihe($lines_0, $z_counter)+nihe($lines_1, $y_counter));
-        echo ", viimane jupp: ".(abs($value_1['x2'] - $value_0['x2'])) . "+" .abs($value_0['y2'] - $value_1['y1']);
-        echo ", kokku: ".(nihe($lines_0, $z_counter)+nihe($lines_1, $y_counter) + abs($value_1['x2'] - $value_0['x2'])  + abs($value_0['y2'] - $value_1['y1']));
-        echo("<br>");
-      }
-      $y_counter++;
-    }
+function between($point_a, $point_b, $comparator){
+  if ( ($comparator >= $point_a && $comparator <= $point_b) || ($comparator <= $point_a && $comparator >= $point_b) ) {
+    return true;
   }
-  // kohtumine x-teljel – y-d on samad
-  elseif ($value_0['y1'] == $value_0['y2']) {
-    foreach ($lines_1 as $key_1 => $value_1) {
-      if ( ($value_0['x1'] <= $value_1['x1'] && $value_1['x1'] <= $value_0['x2']) && ($value_1['y1'] <= $value_0['y1'] && $value_0['y1'] <= $value_1['y2']) ) {
-        $second = abs($value_1['x1']) + abs($value_0['y2']);
-        echo ("jap: ".$value_1['x1']." ja ".$value_0['y2']." => ".$second);
-        echo ("; pulgad ".($z_counter+1)." ja ".($y_counter+1));
-        echo ", teekond x: ".nihe($lines_0, $z_counter)." teekond y:".nihe($lines_1, $y_counter)." kokku: ".(nihe($lines_0, $z_counter)+nihe($lines_1, $y_counter));
-        echo ", viimane jupp: ".(abs($value_0['x2'] - $value_1['x1']). "+" .abs($value_1['y2'] - $value_0['y2']) );
-        echo ", kokku: ".(nihe($lines_0, $z_counter)+nihe($lines_1, $y_counter) + (abs($value_1['x2'] - $value_0['x2'])) + abs($value_0['y2'] - $value_1['y1']));
-        echo("<br>");
-      }
-      $y_counter++;
-
-    }
-  }
-  $z_counter++;
-  $y_counter = 0;
-
 
 }
 
+$a_counter = 0;
+$b_counter = 0;
+$z_counter = 0;
+$mitmes_joon = 0;
+
+// foreach ($lines_0 as $key_0 => $value_0) {
+//   // kohtumine y-teljel, x-d on samad
+//   if ($value_0['x1'] == $value_0['x2']) {
+//     foreach ($lines_1 as $key_1 => $value_1) {
+//       if ( ($value_1['x1'] <= $value_0['x1'] && $value_0['x1'] <= $value_1['x2']) && ($value_0['y1'] <= $value_1['y1'] && $value_1['y1'] <= $value_0['y2']) ) {
+//         $first = abs($value_0['x1']) + abs($value_1['y2']);
+//         echo ("jep: [".$value_0['x1']."; ".$value_1['y2']."]");
+//         echo ("; pulgad ".($z_counter)." ja ".($y_counter));
+//         $jour_0 = nihe($lines_0,$z_counter);
+//         $jour_1 = nihe($lines_1,$y_counter);
+//         echo ("; teekond_0: ".$jour_0.", teekond_1: ".$jour_1);
+//         $jupp_x = $value_0['x2']-$value_1['x1'];
+//         $jupp_y = $value_1['y2']-$value_0['y1'];
+//         echo "; jupp_x: ".$jupp_x.", jupp_y: ".$jupp_y;
+//         echo("<br>");
+//         print_r($value_0);
+//         echo("<br>");
+//         print_r($value_1);
+//         // echo ", teekond x: ".nihe($lines_0, $z_counter+1)." teekond y:".nihe($lines_1, $y_counter+1)." kokku: ".(nihe($lines_0, $z_counter+1)+nihe($lines_1, $y_counter+1));
+//         // echo ", viimane jupp: ".(abs($value_1['x2'] - $value_0['x2'])) . "+" .abs($value_1['y2'] - $value_0['y1']);
+//         // echo ", kokku: ".(nihe($lines_0, $z_counter+1)+nihe($lines_1, $y_counter+1) - (abs($value_1['x2'] - $value_0['x2'])  + abs($value_1['y2'] - $value_0['y1'])));
+//         echo("<br>");
+//       }
+//       $y_counter++;
+//     }
+//   }
+//   // kohtumine x-teljel – y-d on samad
+//   elseif ($value_0['y1'] == $value_0['y2']) {
+//     foreach ($lines_1 as $key_1 => $value_1) {
+//       if ( ($value_0['x1'] <= $value_1['x1'] && $value_1['x1'] <= $value_0['x2']) && ($value_1['y1'] <= $value_0['y1'] && $value_0['y1'] <= $value_1['y2']) ) {
+//         $second = abs($value_1['x1']) + abs($value_0['y2']);
+//         echo ("jap: [".$value_1['x1']."; ".$value_0['y2']."]");
+//         echo ("; pulgad ".($z_counter)." ja ".($y_counter));
+//         $jour_0 = nihe($lines_0,$z_counter);
+//         $jour_1 = nihe($lines_1,$y_counter);
+//         echo ("; teekond_0: ".$jour_0.", teekond_1: ".$jour_1);
+//
+//         // echo ", teekond x: ".nihe($lines_0, $z_counter+1)." teekond y:".nihe($lines_1, $y_counter+1)." kokku: ".(nihe($lines_0, $z_counter+1)+nihe($lines_1, $y_counter+1));
+//         // echo ", viimane jupp: ".(abs($value_0['x2'] - $value_1['x1']). "+" .abs($value_1['y2'] - $value_0['y1']) );
+//         // echo ", kokku: ".(nihe($lines_0, $z_counter+1)+nihe($lines_1, $y_counter+1) - (abs($value_0['x2'] - $value_1['x1']) + abs($value_1['y2'] - $value_0['y1'])));
+//         echo("<br>");
+//       }
+//       $y_counter++;
+//
+//     }
+//   }
+//   $z_counter++;
+//   $y_counter = 0;
+// }
+//
+
+
+foreach ($lines_0 as $key_a => $a) {
+  foreach ($lines_1 as $key_b => $b) {
+    if ( $a['x1']==$a['x2'] && between($b['x1'],$b['x2'],$a['x1']) ) {
+      if (between($a['y1'],$a['y2'],$b['y1'])) {
+        echo "variant a: ";
+        echo "</br>";
+        echo "counter: ".journey($lines_1,$key_b).", ".journey($lines_0,$key_a);
+        echo "</br>";
+        echo "a_sticks: ".$key_a.", ".$key_b;
+        echo "</br>";
+        echo "koht: ".$a['x1'].";".$b['y1'];
+        echo "</br>";
+        echo "viimane jupp x: ".abs($a['x1']-$b['x1']);
+        echo "</br>";
+        echo "viimane jupp y: ".abs($b['y1']-$a['y1']);
+        echo "</br>";
+        echo "<b>summa: </b>".(journey($lines_1,$key_b)+journey($lines_0,$key_a)+abs($a['x1']-$b['x1'])+abs($b['y1']-$a['y1']));
+        echo "</br>";
+        print_r($a);
+        echo "</br>";
+        print_r($b);
+        echo "</br>";
+        echo "</br>";
+      }
+    }
+    elseif ($a['y1']==$a['y2'] && between($b['y1'],$b['y2'],$a['y1'])) {
+        if (between($a['x1'],$a['x2'],$b['x1'])) {
+          echo "variant b: ";
+          echo "</br>";
+          echo "counter: ".journey($lines_1,$key_b).", ".journey($lines_0,$key_a);
+          echo "</br>";
+          echo "b_sticks: ".$key_a.", ".$key_b;
+          echo "</br>";
+          echo "koht: ".$b['x1'].";".$a['y1'];
+          echo "</br>";
+          echo "viimane jupp x: ".abs($b['x1']-$a['x1']);
+          echo "</br>";
+          echo "viimane jupp y: ".abs($a['y1']-$b['y1']);
+          echo "</br>";
+          echo "<b>summa: </b>".(journey($lines_1,$key_b)+journey($lines_0,$key_a)+abs($b['x1']-$a['x1'])+abs($a['y1']-$b['y1']));
+          echo "</br>";
+          print_r($a);
+          echo "</br>";
+          print_r($b);
+          echo "</br>";
+          echo "</br>";
+        }
+    }
+    $b_counter++;
+  }
+  $a_counter++;
+  $b_counter = 0;
+}
 
 echo("____________________________________</br>");
 
