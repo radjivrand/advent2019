@@ -1,4 +1,4 @@
-<?
+<?php
 $instr = file_get_contents('./5.txt', FILE_USE_INCLUDE_PATH);
 
 $arr = preg_split("/,/", $instr);
@@ -23,9 +23,9 @@ for ($i=0; $i < 40; $i++) {
     // liitmine: number kohal A + number kohal B; summa kirjutatakse kohale C
     case 1:
       echo "case 1<br>";
-      echo "arr[pointer]: ".$arr[$arr[$pointer + 3]]."<br>";
-      echo "string".$arr[225];
+      echo "string".$arr[225]."<br>";
       $arr[$arr[$pointer + 3]] = $arr[$arr[$pointer + 1]] + $arr[$arr[$pointer + 2]];
+      echo "arr[pointer]: ".$arr[$arr[$pointer + 3]]."<br>";
       $pointer +=4;
 
     break;
@@ -64,6 +64,9 @@ for ($i=0; $i < 40; $i++) {
       // }
 
     break;
+
+    default:
+    echo $arr[$pointer]."<br>";
   }
 
 
